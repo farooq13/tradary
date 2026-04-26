@@ -5,6 +5,9 @@ use crate::state::{
     UserAccount, TradeAccount, TradeStatus
 };
 
+// Append-only notes update for an open trade.
+// Appends new content to existing notes — never overwrites.
+// Only permitted while trade status is Open.
 
 
 // Context
