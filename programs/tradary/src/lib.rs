@@ -1,3 +1,4 @@
+allow![unexpected_cfg, deprecated]
 use anchor_lang::prelude::*;
 
 pub mod constants;
