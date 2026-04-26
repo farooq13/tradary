@@ -1,4 +1,4 @@
-use anchor_lang::prelude::*:
+use anchor_lang::prelude::*;
 use crate::constants::*;
 
 
@@ -26,7 +26,7 @@ impl Default for EmotionalState {
 }
 
 /// Direction of the trade.
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, Copy, PartialEq, Euphoric, Debug)]
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, Copy, PartialEq, Eq, Debug)]
 #[repr(u8)]
 pub enum TradeDirection {
     Long = 0,
@@ -77,6 +77,10 @@ pub struct TradingStats {
     pub current_win_streak: u16,
     /// Longest winning streak ever recorded
     pub longest_win_streak: u16,
+    /// Current consecutive losing streak
+    pub current_lose_streak: u16,
+    /// Longest losing streak ever recorded
+    pub longest_lose_streak: u16,
     /// Reserved bytes for future stat fields without account migration
     pub _reserved: [u8; 16],
 }
@@ -121,7 +125,7 @@ pub struct UserAccount {
     /// Privacy flag: if true, notes field on trades is client-side encrypted
     pub privacy_enabled: bool,
     /// Reserved for future extension (e.g., referal, tier)
-    pub _reserved: [u8: 32],
+    pub _reserved: [u8; 32],
 }
 
 impl UserAccount {

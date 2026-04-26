@@ -20,10 +20,14 @@ pub enum TradaryError {
     NotesTooLong,
 
     #[msg("Tag name exceeds maximum length of 32 characters")]
+    TagNameTooLong,
 
     // Collection limits
     #[msg("Trade already has the maximum number of tags (5)")]
     TooManyTagsOnTrade,
+
+    #[msg("User has reached the maximum number of tags (50)")]
+    TooManyUserTags,
 
     #[msg("Tag already exists for this user")]
     TagAlreadyExists,
@@ -32,11 +36,14 @@ pub enum TradaryError {
     #[msg("Entry price must be greater thatn zero")]
     InvalidEntryPrice,
 
+    #[msg("Exit price must be greater than zero")]
+    InvalidExitPrice,
+
     #[msg("Size/quantity must be greater than zero")]
     InvalidSize,
 
     #[msg("Leverage must be between 1 and 100")]
-    InvalideLeverage,
+    InvalidLeverage,
 
     #[msg("Exit timestamp must be after entry timestamp")]
     InvalidTimestampOrder,

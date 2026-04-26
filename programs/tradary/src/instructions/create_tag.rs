@@ -38,7 +38,7 @@ pub struct CreateTag<'info> {
 }
 
 // Handler
-pub fn handler(ctx: Context<TagAccount>, name: String, color: u32) -> Result<()> {
+pub fn handler(ctx: Context<CreateTag>, name: String, color: u32) -> Result<()> {
     require!(name.len() <= MAX_TAG_NAME_LEN, TradaryError::TagNameTooLong);
     require!(name.len() > 0, TradaryError::TagNameTooLong); // non-empty
 
@@ -63,7 +63,7 @@ pub fn handler(ctx: Context<TagAccount>, name: String, color: u32) -> Result<()>
     // Increment counter
     let user = &mut ctx.accounts.user_account;
     user.tag_count = user.tag_count.checked_add(1)
-        .ok_or(TradaryError::ArithmeticError)?;
+        .ok_or(TradaryError::ArithmaticOverflow)?;
     
     emit!(TagCreated {
         owner: ctx.accounts.owner.key(),

@@ -7,7 +7,7 @@ use crate::state::{UserAccount, TradingStats};
 
 #[derive(Accounts)]
 #[instruction(username: String, bio: String)]
-pub struct InitializeUser {
+pub struct InitializeUser<'info> {
     /// The wallet creating the journal
     #[account(mut)]
     pub owner: Signer<'info>,
@@ -46,7 +46,7 @@ pub fn handler(
     user.username = username;
     user.bio = bio;
     user.created_at = clock.unix_timestamp;
-    user.trade_account = 0;
+    user.trade_count = 0;
     user.tag_count = 0;
     user.stats = TradingStats::default();
     user.privacy_enabled = privacy_enabled;
@@ -63,7 +63,7 @@ pub fn handler(
 
 
 // Events
-#[events]
+#[event]
 pub struct UserInitialized {
     pub owner: Pubkey,
     pub created_at: i64,

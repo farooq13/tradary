@@ -34,8 +34,8 @@ pub struct AddTradeNotes<'info> {
 }
 
 // Handler
-pub fn handler(c
-    tx: Context<AddTradeNotes>, _trade_index: u32, additional_notes: String
+pub fn handler(
+    ctx: Context<AddTradeNotes>, _trade_index: u32, additional_notes: String
 ) -> Result<()> {
     let trade = &ctx.accounts.trade_account;
 
@@ -49,12 +49,12 @@ pub fn handler(c
         format!("{}\n---\n{}", trade.notes, additional_notes)
     };
 
-    require!(appended.len() <= MAX_NOTE_LEN, TradaryError::NotesTooLong);
+    require!(appended.len() <= MAX_NOTES_LEN, TradaryError::NotesTooLong);
 
     let clock = Clock::get()?;
     let trade = &mut ctx.accounts.trade_account;
     trade.notes = appended;
-    trade.updated_at = clock.unit_timestamp;
+    trade.updated_at = clock.unix_timestamp;
 
     Ok(())
 }
