@@ -1,5 +1,5 @@
-use anchor_lang::prelude::*:
-use crate::constants::*:
+use anchor_lang::prelude::*;
+use crate::constants::*;
 use crate::errors::TradaryError;
 use crate::state::{
     UserAccount, TradeAccount, TradeStatus,
@@ -35,10 +35,13 @@ pub struct CreateTradeParams {
 #[derive(Accounts)]
 #[instruction(params: CreateTradeParams)]
 pub struct CreateTrade<'info> {
+    #[account(mut)]
+    pub owner: Signer<'info>,
+
     /// UserAccount must already be initialized and owned by signer.
     #[account(
         mut, 
-        seeds = [USER_SEED, signer.key().as_ref()],
+        seeds = [SEED_USER, owner.key().as_ref()],
         bump = user_account.bump,
         has_one = owner @ TradaryError::Unauthorized,
     )]
@@ -69,7 +72,7 @@ pub struct CreateTrade<'info> {
 pub fn handler(ctx: Context<CreateTrade>, params: CreateTradeParams
 ) -> Result<()> {
     // input validation
-    require!(params.symbol.len() <= MAX_SYMBOLE_LEN, TradaryError::SymbolTooLong);
+    require!(params.symbol.len() <= MAX_SYMBOL_LEN, TradaryError::SymbolTooLong);
     require!(params.notes.len() <= MAX_NOTES_LEN, TradaryError::NotesTooLong);
     require!(params.entry_price > 0, TradaryError::InvalidEntryPrice);
     require!(params.size > 0, TradaryError::InvalidSize);
@@ -84,6 +87,7 @@ pub fn handler(ctx: Context<CreateTrade>, params: CreateTradeParams
     trade.version = CURRENT_VERSION;
     trade.owner = ctx.accounts.owner.key();
     trade.bump = ctx.bumps.trade_account;
+    trade.trade_index = trade_index;
     trade.symbol = params.symbol.clone();
     trade.direction = params.direction;
     trade.asset_class = params.asset_class;
@@ -100,13 +104,13 @@ pub fn handler(ctx: Context<CreateTrade>, params: CreateTradeParams
     trade.notes = params.notes;
     trade.tag_indices = params.tag_indices;
     trade.status = TradeStatus::Open;
-    trade.update_at = clock.unix_timestamp;
+    trade.updated_at = clock.unix_timestamp;
     trade._reserved = [0u8; 16];
 
     // Increment trade_count to ensure next PDA uses a different seed
     let user = &mut ctx.accounts.user_account;
     user.trade_count = user.trade_count.checked_add(1)
-        .ok_or(TradaryError::ArithmeticOverflow)?;
+        .ok_or(TradaryError::ArithmaticOverflow)?;
 
     emit!(TradeOpened {
         owner: ctx.accounts.owner.key(),

@@ -1,0 +1,258 @@
+   Compiling tradary-program v0.1.0 (/home/farooq/tradary/programs/tradary)
+error: statements are terminated with a semicolon
+ --> programs/tradary/src/state/tag_account.rs:1:28
+  |
+1 | use anchor_lang::prelude::*:
+  |                            ^
+  |
+  = note: if you meant to annotate an expression with a type, the type ascription syntax has been removed, see issue #101728 <https://github.com/rust-lang/rust/issues/101728>
+help: use a semicolon instead
+  |
+1 | use anchor_lang::prelude::*;
+  |                            ~
+
+error: custom attribute panicked
+ --> programs/tradary/src/errors.rs:3:1
+  |
+3 | #[error_code]
+  | ^^^^^^^^^^^^^
+  |
+  = help: message: Too many attributes found. Use `msg` to specify error strings
+
+error[E0432]: unresolved import `crate::errors::TradaryError`
+ --> programs/tradary/src/instructions/initialize_user.rs:3:5
+  |
+3 | use crate::errors::TradaryError;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `TradaryError` in `errors`
+
+error[E0432]: unresolved import `crate::errors::TradaryError`
+ --> programs/tradary/src/instructions/create_trade.rs:3:5
+  |
+3 | use crate::errors::TradaryError;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `TradaryError` in `errors`
+
+error[E0432]: unresolved import `crate::errors::TradaryError`
+ --> programs/tradary/src/instructions/close_trade.rs:3:5
+  |
+3 | use crate::errors::TradaryError;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `TradaryError` in `errors`
+
+error[E0432]: unresolved import `crate::errors::TradaryError`
+ --> programs/tradary/src/instructions/add_trade_notes.rs:3:5
+  |
+3 | use crate::errors::TradaryError;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `TradaryError` in `errors`
+
+error[E0432]: unresolved import `crate::errors::TradaryError`
+ --> programs/tradary/src/instructions/create_tag.rs:3:5
+  |
+3 | use crate::errors::TradaryError;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `TradaryError` in `errors`
+
+error[E0432]: unresolved import `crate::errors::TradaryError`
+ --> programs/tradary/src/instructions/update_user_profile.rs:3:5
+  |
+3 | use crate::errors::TradaryError;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `TradaryError` in `errors`
+
+error[E0261]: use of undeclared lifetime name `'info`
+  --> programs/tradary/src/instructions/initialize_user.rs:13:23
+   |
+10 | pub struct InitializeUser {
+   |                          - help: consider introducing lifetime `'info` here: `<'info>`
+...
+13 |     pub owner: Signer<'info>,
+   |                       ^^^^^ undeclared lifetime
+
+error[E0261]: use of undeclared lifetime name `'info`
+  --> programs/tradary/src/instructions/initialize_user.rs:23:31
+   |
+10 | pub struct InitializeUser {
+   |                          - help: consider introducing lifetime `'info` here: `<'info>`
+...
+23 |     pub user_account: Account<'info, UserAccount>,
+   |                               ^^^^^ undeclared lifetime
+
+error[E0261]: use of undeclared lifetime name `'info`
+  --> programs/tradary/src/instructions/initialize_user.rs:25:33
+   |
+10 | pub struct InitializeUser {
+   |                          - help: consider introducing lifetime `'info` here: `<'info>`
+...
+25 |     pub system_program: Program<'info, System>,
+   |                                 ^^^^^ undeclared lifetime
+
+error[E0425]: cannot find value `USER_SEED` in this scope
+  --> programs/tradary/src/instructions/create_trade.rs:44:18
+   |
+44 |         seeds = [USER_SEED, signer.key().as_ref()],
+   |                  ^^^^^^^^^ help: a constant with a similar name exists: `SEED_USER`
+   |
+  ::: programs/tradary/src/constants.rs:2:1
+   |
+2  | pub const SEED_USER: &[u8] = b"user";
+   | ------------------------------------- similarly named constant `SEED_USER` defined here
+
+error[E0425]: cannot find value `signer` in this scope
+  --> programs/tradary/src/instructions/create_trade.rs:44:29
+   |
+44 |         seeds = [USER_SEED, signer.key().as_ref()],
+   |                             ^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `MAX_SYMBOLE_LEN` in this scope
+  --> programs/tradary/src/instructions/create_trade.rs:75:37
+   |
+75 |     require!(params.symbol.len() <= MAX_SYMBOLE_LEN, TradaryError::SymbolTooLong);
+   |                                     ^^^^^^^^^^^^^^^ help: a constant with a similar name exists: `MAX_SYMBOL_LEN`
+   |
+  ::: programs/tradary/src/constants.rs:9:1
+   |
+9  | pub const MAX_SYMBOL_LEN: usize = 16;
+   | ------------------------------------- similarly named constant `MAX_SYMBOL_LEN` defined here
+
+error[E0425]: cannot find value `MAX_NOTE_LEN` in this scope
+  --> programs/tradary/src/instructions/add_trade_notes.rs:52:32
+   |
+52 |     require!(appended.len() <= MAX_NOTE_LEN, TradaryError::NotesTooLong);
+   |                                ^^^^^^^^^^^^ help: a constant with a similar name exists: `MAX_NOTES_LEN`
+   |
+  ::: programs/tradary/src/constants.rs:10:1
+   |
+10 | pub const MAX_NOTES_LEN: usize = 512;
+   | ------------------------------------- similarly named constant `MAX_NOTES_LEN` defined here
+
+warning: unexpected `cfg` condition value: `custom-heap`
+  --> programs/tradary/src/lib.rs:12:1
+   |
+12 | #[program]
+   | ^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cpi`, `default`, `idl-build`, `no-entrypoint`, `no-idl`, and `no-log-ix-name`
+   = help: consider adding `custom-heap` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: `#[warn(unexpected_cfgs)]` on by default
+   = note: this warning originates in the macro `$crate::custom_heap_default` which comes from the expansion of the attribute macro `program` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `custom-panic`
+  --> programs/tradary/src/lib.rs:12:1
+   |
+12 | #[program]
+   | ^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cpi`, `default`, `idl-build`, `no-entrypoint`, `no-idl`, and `no-log-ix-name`
+   = help: consider adding `custom-panic` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the macro `$crate::custom_panic_default` which comes from the expansion of the attribute macro `program` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `anchor-debug`
+ --> programs/tradary/src/instructions/initialize_user.rs:8:10
+  |
+8 | #[derive(Accounts)]
+  |          ^^^^^^^^
+  |
+  = note: expected values for `feature` are: `cpi`, `default`, `idl-build`, `no-entrypoint`, `no-idl`, and `no-log-ix-name`
+  = help: consider adding `anchor-debug` as a feature in `Cargo.toml`
+  = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+  = note: this warning originates in the derive macro `Accounts` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `anchor-debug`
+  --> programs/tradary/src/instructions/create_trade.rs:35:10
+   |
+35 | #[derive(Accounts)]
+   |          ^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cpi`, `default`, `idl-build`, `no-entrypoint`, `no-idl`, and `no-log-ix-name`
+   = help: consider adding `anchor-debug` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the derive macro `Accounts` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `anchor-debug`
+  --> programs/tradary/src/instructions/close_trade.rs:26:10
+   |
+26 | #[derive(Accounts)]
+   |          ^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cpi`, `default`, `idl-build`, `no-entrypoint`, `no-idl`, and `no-log-ix-name`
+   = help: consider adding `anchor-debug` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the derive macro `Accounts` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `anchor-debug`
+  --> programs/tradary/src/instructions/add_trade_notes.rs:14:10
+   |
+14 | #[derive(Accounts)]
+   |          ^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cpi`, `default`, `idl-build`, `no-entrypoint`, `no-idl`, and `no-log-ix-name`
+   = help: consider adding `anchor-debug` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the derive macro `Accounts` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `anchor-debug`
+ --> programs/tradary/src/instructions/create_tag.rs:8:10
+  |
+8 | #[derive(Accounts)]
+  |          ^^^^^^^^
+  |
+  = note: expected values for `feature` are: `cpi`, `default`, `idl-build`, `no-entrypoint`, `no-idl`, and `no-log-ix-name`
+  = help: consider adding `anchor-debug` as a feature in `Cargo.toml`
+  = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+  = note: this warning originates in the derive macro `Accounts` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `anchor-debug`
+  --> programs/tradary/src/instructions/update_user_profile.rs:17:10
+   |
+17 | #[derive(Accounts)]
+   |          ^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cpi`, `default`, `idl-build`, `no-entrypoint`, `no-idl`, and `no-log-ix-name`
+   = help: consider adding `anchor-debug` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the derive macro `Accounts` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: ambiguous glob re-exports
+  --> programs/tradary/src/instructions/mod.rs:8:9
+   |
+8  | pub use initialize_user::*;
+   |         ^^^^^^^^^^^^^^^^^^ the name `handler` in the value namespace is first re-exported here
+...
+13 | pub use update_user_profile::*;
+   |         ---------------------- but the name `handler` in the value namespace is also re-exported here
+   |
+   = note: `#[warn(ambiguous_glob_reexports)]` on by default
+
+warning: unexpected `cfg` condition value: `anchor-debug`
+  --> programs/tradary/src/lib.rs:12:1
+   |
+12 | #[program]
+   | ^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cpi`, `default`, `idl-build`, `no-entrypoint`, `no-idl`, and `no-log-ix-name`
+   = help: consider adding `anchor-debug` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the attribute macro `program` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `anchor-debug`
+  --> programs/tradary/src/lib.rs:12:1
+   |
+12 | #[program]
+   | ^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cpi`, `default`, `idl-build`, `no-entrypoint`, `no-idl`, and `no-log-ix-name`
+   = help: consider adding `anchor-debug` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the derive macro `Accounts` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: use of deprecated method `anchor_lang::prelude::AccountInfo::<'a>::realloc`: Use AccountInfo::resize() instead
+  --> programs/tradary/src/lib.rs:12:1
+   |
+12 | #[program]
+   | ^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+   = note: this warning originates in the attribute macro `program` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+Some errors have detailed explanations: E0261, E0425, E0432.
+For more information about an error, try `rustc --explain E0261`.
+warning: `tradary-program` (lib) generated 17 warnings (5 duplicates)
+error: could not compile `tradary-program` (lib) due to 15 previous errors; 17 warnings emitted

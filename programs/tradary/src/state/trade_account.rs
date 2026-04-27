@@ -5,7 +5,7 @@ use crate::state::user_account::{EmotionalState, TradeDirection, AssetClass};
 
 
 // Lifecycle of a trade
-#[derive(AnchorSerialise, AnchorDeserialize, Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, Copy, PartialEq, Eq, Debug)]
 #[repr(u8)]
 pub enum TradeStatus {
     Open  = 0,
@@ -38,7 +38,7 @@ pub struct TradeAccount {
     /// Entry price in micro-units
     pub entry_price: i64,
     /// Exit price in micro-uints (0 if still open)
-    pub exit_price: iu64,
+    pub exit_price: i64,
     /// Position size (quantity of base asset, 6 decimals)
     pub size: u64,
     /// Leverage used (1 = no leverage, max 100)

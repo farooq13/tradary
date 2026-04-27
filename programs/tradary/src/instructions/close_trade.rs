@@ -9,7 +9,7 @@ use crate::state::{
 
 
 // Input params
-#[derive(AnchorSerialize, AnchorDeserialze, Clone, Debug)]
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, Debug)]
 pub struct CloseTradeParams {
     /// Exit price in micro-units. Must be > 0;
     pub exit_price: i64,
@@ -31,7 +31,7 @@ pub struct CloseTrade<'info> {
 
     #[account(
         mut,
-        seeds: [SEED_USER, owner.key().as_ref()],
+        seeds = [SEED_USER, owner.key().as_ref()],
         bump = user_account.bump,
         has_one = owner @ TradaryError::Unauthorized,
     )]
@@ -111,7 +111,7 @@ pub fn handler(ctx: Context<CloseTrade>, params: CloseTradeParams, _trade_index:
             trade.fees_paid = params.fees_paid;
             trade.pnl_realized = net_pnl;
             trade.status = TradeStatus::Closed;
-            trade.updated_at = clock.unix_timestamp
+            trade.updated_at = clock.unix_timestamp;
         }
 
         // Update aggregate stats
@@ -140,7 +140,7 @@ pub fn handler(ctx: Context<CloseTrade>, params: CloseTradeParams, _trade_index:
 
         // Win/loss streak tracking
         if net_pnl > 0 {
-            stats.winnning_trades = stats.winnning_trades.checked_add(1)
+            stats.winning_trades = stats.winning_trades.checked_add(1)
                 .ok_or(TradaryError::ArithmaticOverflow)?;
             
             stats.current_win_streak = stats.current_win_streak.checked_add(1)
